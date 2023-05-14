@@ -1,2 +1,1 @@
-# nftensor.com
-Website to manage creating NFTs on Ethereum using Bittensor
+## Website to mint NFTs on Ethereum using Bittensor for generative art
