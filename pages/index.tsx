@@ -2,7 +2,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-
+import ApproveAndMint from "../components/ApproveAndMint";
 const Home: NextPage = () => {
     return (
         <div className="bg-white border min-h-screen">
@@ -27,20 +27,7 @@ const Home: NextPage = () => {
 
                     </div>
                 </div>
-                <form className="container mx-auto">
-                    <div className="mb-4 border border-gray-600 rounded-lg h-fit">
-                        <div className="p-4 bg-white rounded-t-lg">
-                            <label className="sr-only">Prompt Bittensor Here!</label>
-                            <textarea id="comment" rows="4" className="w-full px-8 py-6 text-xl focus:shadow-soft-primary-outline appearance-none rounded-lg border-2 border-solid border-gray-300 bg-white text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none" placeholder="Prompt Bittensor Here" required></textarea>
-                        </div>
-                        <div className="flex items-center justify-end px-3 py-2 border-t">
-                            <button type="submit" className="inline-flex items-center py-2.5 px-4 font-rounded font-bold  text-center text-white bg-blue rounded-lg focus:ring-4 focus:ring-fuchsia-300 hover:bg-green-500">
-                                Prompt and Mint
-                            </button>
-
-                        </div>
-                    </div>
-                </form>
+                <ApproveAndMint />
                 <div className="container mx-auto mt-10 flex flex-col space-y-2">
                     <h1 className="text-2xl">What is NFTensor?</h1>
                     <p>
