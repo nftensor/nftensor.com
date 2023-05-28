@@ -1,14 +1,38 @@
 import * as React from 'react';
 import { useDebounce } from 'use-debounce';
-import { usePrepareSendTransaction, useSendTransaction, useWaitForTransaction } from 'wagmi';
+import { usePrepareContractWrite, usePrepareSendTransaction, useSendTransaction, useWaitForTransaction } from 'wagmi';
 import { parseEther } from 'viem';
-
+import tokenABI from "../abis/tokenABI.json";
 const ApproveAndMint = () => {
     const [to, setTo] = React.useState('')
     const [debouncedTo] = useDebounce(to, 500)
 
     const [amount, setAmount] = React.useState('')
     const [debouncedAmount] = useDebounce(amount, 500)
+
+    const { config: mintConfig } = usePrepareContractWrite({
+        address: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2',
+        abi: [
+            {
+                name: 'mint',
+                type: 'function',
+                stateMutability: 'nonpayable',
+                inputs: [],
+                outputs: [],
+            },
+        ],
+        functionName: 'mint',
+    });
+
+    const { config: approveConfig } = usePrepareContractWrite({
+        address: '0x77E06c9eCCf2E797fd462A92B6D7642EF85b0A44',
+        abi: tokenABI,
+        functionName: 'approve',
+    });
+
+    const { writeApprove } = useContractWrite(config);
+
+    const { writeMint } = useContractWrite(mintConfig);
 
     const { config } = usePrepareSendTransaction({
         request: {
@@ -40,23 +64,24 @@ const ApproveAndMint = () => {
                 </div>
                 <div className="flex items-center justify-end px-3 py-2 border-t">
                     <button type="submit" className="inline-flex items-center py-2.5 px-4 font-rounded font-bold  text-center text-white bg-blue rounded-lg focus:ring-4 focus:ring-fuchsia-300 hover:bg-green-500">
-                        Prompt and Mint
+                        {isLoading ? 'Sending...' : 'Send'}
                     </button>
 
                 </div>
             </div>
             <button disabled={!sendTransaction || !to || !amount}>
-                {isLoading ? 'Sending...' : 'Send'}
             </button>
-            {isSuccess && (
-                <div>
-                    Successfully sent {amount} ether to {to}
+            {
+                isSuccess && (
                     <div>
-                        <a href={`https://etherscan.io/tx/${data?.hash}`}>Etherscan</a>
+                        Successfully sent {amount} ether to {to}
+                        <div>
+                            <a href={`https://etherscan.io/tx/${data?.hash}`}>Etherscan</a>
+                        </div>
                     </div>
-                </div>
-            )}
-        </form>
+                )
+            }
+        </form >
     );
 };
 
