@@ -3,7 +3,6 @@ import "@rainbow-me/rainbowkit/styles.css";
 import {
     getDefaultWallets,
     RainbowKitProvider,
-    lightTheme,
 } from "@rainbow-me/rainbowkit";
 import type { AppProps } from "next/app";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
@@ -20,9 +19,6 @@ import { publicProvider } from "wagmi/providers/public";
 const { chains, provider, webSocketProvider } = configureChains(
     [
         mainnet,
-        polygon,
-        optimism,
-        arbitrum,
         localhost,
         ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true" ? [goerli] : []),
     ],
