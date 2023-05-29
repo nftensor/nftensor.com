@@ -75,7 +75,7 @@ const ApproveAndMint = () => {
         console.log(allowance);
         console.log(writeApprove);
         writeApprove?.();
-        if (allowance > mintPrice) {
+        if (allowance > parseInt(mintPrice)) {
             setIsApproved(true);
         } 
 
@@ -101,7 +101,7 @@ const ApproveAndMint = () => {
     const buttonClass = `inline-flex items-center py-2.5 px-4 font-rounded 
                         font-bold text-center text-white rounded-lg focus:ring-4 
                         focus:ring-fuchsia-300 
-                        ${isDisconnected || !isButtonEnabled ? "bg-gray-400" : "bg-blue"}`; 
+                        ${isDisconnected || !isButtonEnabled ? "bg-gray-400" : "bg-blue hover:bg-green-400"}`; 
     return (
         <form className="container mx-auto">
             <div className="mb-4 border border-gray-600 rounded-lg h-fit">
