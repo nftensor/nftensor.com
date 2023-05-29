@@ -1,12 +1,12 @@
 import React, { useState, ChangeEvent } from "react";
 import { useDebounce } from 'use-debounce';
 import { useAccount, usePrepareContractWrite, useContractRead, usePrepareSendTransaction, useSendTransaction, useWaitForTransaction, useContractWrite } from 'wagmi';
-import { parseEther } from 'viem';
+import { parseUnits } from 'viem';
 import tokenABI from "../abis/tokenABI.json";
 const ApproveAndMint = () => {
 
     // required constants 
-    const mintPrice = 1000000000n;
+    const mintPrice = "1000000000";
     const wTAOAddress = '0x77E06c9eCCf2E797fd462A92B6D7642EF85b0A44';
     const nftAddress = '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2';
 
@@ -34,16 +34,6 @@ const ApproveAndMint = () => {
     });
 
 
-    const handleApprove = async () => {
-        let allowance = erc20Allowance as bigint;
-        console.log(allowance);
-
-        if (allowance > mintPrice) {
-            setIsApproved(true);
-        } 
-
-    }
-
 
     // handle contract reads 
     const { config: mintConfig } = usePrepareContractWrite({
@@ -64,6 +54,7 @@ const ApproveAndMint = () => {
         address: wTAOAddress,
         abi: tokenABI,
         functionName: 'approve',
+        args: [nftAddress, mintPrice],
     });
 
     const { data: approveData, write: writeApprove } = useContractWrite(approveConfig);
@@ -79,6 +70,18 @@ const ApproveAndMint = () => {
         hash: mintData?.hash,
     });
 
+    const handleApprove = () => {
+        let allowance = erc20Allowance as bigint;
+        console.log(allowance);
+        console.log(writeApprove);
+        writeApprove?.();
+        if (allowance > mintPrice) {
+            setIsApproved(true);
+        } 
+
+    }
+
+
     const handleButton = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         if (isDisconnected) {
@@ -91,7 +94,7 @@ const ApproveAndMint = () => {
 
         if (!isApproved) {
             console.log("do we even make it here");
-            await handleApprove();
+            handleApprove();
         }
     }
 
