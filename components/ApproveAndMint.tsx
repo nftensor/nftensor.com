@@ -7,8 +7,13 @@ const ApproveAndMint = () => {
 
     // required constants 
     const mintPrice = "1000000000";
-    const wTAOAddress = '0x77E06c9eCCf2E797fd462A92B6D7642EF85b0A44';
-    const nftAddress = '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2';
+    // real address 
+    // const wTAOAddress = '0x77E06c9eCCf2E797fd462A92B6D7642EF85b0A44';
+    // test address
+    const wTAOAddress = '0x9D3DA37d36BB0B825CD319ed129c2872b893f538';
+    
+    // test address
+    const nftAddress = '0x3c705dB336C81c7FEFC5746e283aB2c0781A4B7b';
 
     // get account 
     const { address: userAddress, isConnecting, isDisconnected } = useAccount();
