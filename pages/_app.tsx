@@ -7,11 +7,8 @@ import {
 import type { AppProps } from "next/app";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import {
-    arbitrum,
     goerli,
     mainnet,
-    optimism,
-    polygon,
     localhost,
 } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";

@@ -10,10 +10,10 @@ const ApproveAndMint = () => {
     // real address 
     // const wTAOAddress = '0x77E06c9eCCf2E797fd462A92B6D7642EF85b0A44';
     // test address
-    const wTAOAddress = '0x9D3DA37d36BB0B825CD319ed129c2872b893f538';
+    const wTAOAddress = '0x59C4e2c6a6dC27c259D6d067a039c831e1ff4947';
     
     // test address
-    const nftAddress = '0x3c705dB336C81c7FEFC5746e283aB2c0781A4B7b';
+    const nftAddress = '0x9D3DA37d36BB0B825CD319ed129c2872b893f538';
 
     // get account 
     const { address: userAddress, isConnecting, isDisconnected } = useAccount();
@@ -63,25 +63,23 @@ const ApproveAndMint = () => {
     });
 
     const { data: approveData, write: writeApprove } = useContractWrite(approveConfig);
-
     const { data: mintData, write: writeMint } = useContractWrite(mintConfig);
 
-
-    const { isLoading: approveIsLoading, isSuccess: approveIsSuccess } = useWaitForTransaction({
-        hash: approveData?.hash,
-    })
 
     const { isLoading: mintIsLoading, isSuccess: mintIsSuccess } = useWaitForTransaction({
         hash: mintData?.hash,
     });
 
-    const handleApprove = () => {
+    const handleApprove = async () => {
         let allowance = erc20Allowance as bigint;
         console.log(allowance);
-        console.log(writeApprove);
-        writeApprove?.();
-        if (allowance > parseInt(mintPrice)) {
+        const receipt =  await writeApprove?.();
+        console.log(receipt);
+        allowance = erc20Allowance as bigint;
+        console.log(allowance);
+        if (allowance >= parseInt(mintPrice)) {
             setIsApproved(true);
+            console.log(isApproved);
         } 
 
     }
@@ -99,8 +97,10 @@ const ApproveAndMint = () => {
 
         if (!isApproved) {
             console.log("do we even make it here");
-            handleApprove();
+            await handleApprove();
         }
+        console.log("now what");
+        console.log(isApproved);
     }
 
     const buttonClass = `inline-flex items-center py-2.5 px-4 font-rounded 
