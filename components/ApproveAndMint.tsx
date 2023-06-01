@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 import { useDebounce } from 'use-debounce';
 import { useAccount, usePrepareContractWrite, useContractRead, usePrepareSendTransaction, useSendTransaction, useWaitForTransaction, useContractWrite } from 'wagmi';
 import { parseUnits } from 'viem';
@@ -11,7 +11,7 @@ const ApproveAndMint = () => {
     // const wTAOAddress = '0x77E06c9eCCf2E797fd462A92B6D7642EF85b0A44';
     // test address
     const wTAOAddress = '0x59C4e2c6a6dC27c259D6d067a039c831e1ff4947';
-    
+
     // test address
     const nftAddress = '0x9D3DA37d36BB0B825CD319ed129c2872b893f538';
 
@@ -25,6 +25,7 @@ const ApproveAndMint = () => {
     const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setInputValue(e.target.value);
         setIsButtonEnabled(e.target.value.trim() !== "");
+        checkIsApproved();
     };
 
     // handle approvals
@@ -70,17 +71,27 @@ const ApproveAndMint = () => {
         hash: mintData?.hash,
     });
 
+    const checkIsApproved = () => {
+        const allowance = erc20Allowance as bigint;
+        if (allowance >= parseInt(mintPrice)) {
+            setIsApproved(true);
+        }
+    }
+
+
+
     const handleApprove = async () => {
         let allowance = erc20Allowance as bigint;
         console.log(allowance);
-        const receipt =  await writeApprove?.();
+        const receipt = await writeApprove?.();
         console.log(receipt);
         allowance = erc20Allowance as bigint;
         console.log(allowance);
         if (allowance >= parseInt(mintPrice)) {
-            setIsApproved(true);
+            console.log("hello");
+            await setIsApproved(true);
             console.log(isApproved);
-        } 
+        }
 
     }
 
@@ -105,7 +116,15 @@ const ApproveAndMint = () => {
 
     const buttonClass = `inline-flex items-center py-2.5 px-4 font-rounded 
                         font-bold text-center text-white rounded-lg
-                        ${isDisconnected || !isButtonEnabled ? "bg-gray-400" : "bg-blue hover:bg-green-400  focus:ring-4 focus:ring-fuchsia-300"}`; 
+                        ${isDisconnected || !isButtonEnabled ? "bg-gray-400" : "bg-blue hover:bg-green-400  focus:ring-4 focus:ring-fuchsia-300"}`;
+
+    const [buttonString, setButtonString] = React.useState('Initial value');
+
+    useEffect(() => {
+        if (isApproved) {
+              setButtonString('Query and Mint');
+        }
+    }, [isApproved]);
     return (
         <form className="container mx-auto">
             <div className="mb-4 border border-gray-600 rounded-lg h-fit">
@@ -122,10 +141,10 @@ const ApproveAndMint = () => {
                 <div className="flex items-center justify-end px-3 py-2 border-t">
                     <button
                         type="submit"
-                        className={buttonClass} 
+                        className={buttonClass}
                         onClick={handleButton}
                         disabled={!isButtonEnabled && !isDisconnected}>
-                        {!isDisconnected ? (isButtonEnabled ? (isApproved ? 'Query and Mint' : 'Approve wTAO') : 'Enter Prompt') : 'Connect Wallet'}
+                        {!isDisconnected ? (isButtonEnabled ? buttonString : 'Enter Prompt') : 'Connect Wallet'}
                     </button>
                 </div>
             </div>
