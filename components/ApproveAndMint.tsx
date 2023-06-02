@@ -9,10 +9,10 @@ const ApproveAndMint = () => {
     const mintPrice = "1000000000";
     // real address 
     // const wTAOAddress = '0x77E06c9eCCf2E797fd462A92B6D7642EF85b0A44';
-    const wTAOAddress = '0x59C4e2c6a6dC27c259D6d067a039c831e1ff4947'; // test wTAO Address
+    const wTAOAddress = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'; // test wTAO Address
 
     // test NFTensor address
-    const nftAddress = '0x9D3DA37d36BB0B825CD319ed129c2872b893f538';
+    const nftAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 
     // get account 
     const { address: userAddress, isDisconnected } = useAccount();
@@ -70,43 +70,35 @@ const ApproveAndMint = () => {
     // react hook to execute mint transaction
     const { data: mintData, write: writeMint } = useContractWrite(mintConfig);
 
+
     // react hook to wait for approve transaction to complete
     const { isLoading: mintIsLoading, isSuccess: mintIsSuccess } = useWaitForTransaction({
         hash: mintData?.hash,
     });
 
-    // function to check if user has approved NFTensor to spend at least the mint price in tao
-    const checkIsApproved = () => {
-        const allowance = erc20Allowance as bigint;
-        if (allowance >= parseInt(mintPrice)) {
-            setIsApproved(true);
+    //    useEffect(() => {
+    //        const allowance = erc20Allowance as bigint;
+    //        if (allowance >= parseInt(mintPrice)) {
+    //            setIsApproved(true);
+    //        }
+    //    }, [erc20Allowance, mintPrice]);
+    //
+    useEffect(() => {
+        if (erc20Allowance && mintPrice) {
+            const allowance = erc20Allowance as bigint;
+            console.log(allowance);
+            if (allowance >= parseInt(mintPrice)) {
+                setIsApproved(true);
+            } else {
+                setIsApproved(false);  // Ensures that isApproved is set to false when the condition isn't met
+            }
         }
-    }
+    }, [erc20Allowance, mintPrice]);
 
     // react hook to wait for mint transaction to complete
-    const {isLoading, isSuccess } = useWaitForTransaction({
+    const { isLoading: approveIsLoading, isSuccess: approveIsSuccess } = useWaitForTransaction({
         hash: approveData?.hash,
     })
-
-    //   const handleApprove = async () => {
-    //       let allowance = erc20Allowance as bigint;
-    //       console.log(allowance);
-    //       const receipt = writeApprove?.();
-    //       const { data, isError, isLoading } = useWaitForTransaction({
-    //           hash: writeApprove.data?.hash,
-    //       });
-
-    //       console.log(receipt);
-    //       allowance = erc20Allowance as bigint;
-    //       console.log(allowance);
-    //       if (allowance >= parseInt(mintPrice)) {
-    //           console.log("hello");
-    //           setIsApproved(true);
-    //           setButtonString("Query and Mint");
-    //           console.log(isApproved);
-    //       }
-
-    //   }
 
     const handleMint = async () => {
         writeMint?.();
@@ -121,17 +113,14 @@ const ApproveAndMint = () => {
 
     const handleButton = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        if (isDisconnected) {
-            return;
-        }
-
-        if (!isButtonEnabled) {
+        if (isDisconnected || !isButtonEnabled) {
             return;
         }
 
         if (!isApproved) {
             writeApprove?.();
         }
+        console.log(isApproved);
 
     }
 
@@ -157,7 +146,14 @@ const ApproveAndMint = () => {
                         className={buttonClass}
                         onClick={handleButton}
                         disabled={!isButtonEnabled && !isDisconnected}>
-                        {!isDisconnected ? (isButtonEnabled ? ( !isSuccess ? "Approve" : "Query and Mint" ) : 'Enter Prompt') : 'Connect Wallet'}
+                        {!isDisconnected
+                            ? isButtonEnabled
+                                ? isApproved
+                                    ? "Query and Mint"
+                                    : "Approve"
+                                : "Enter Prompt"
+                            : "Connect Wallet"
+                        }
                     </button>
                 </div>
             </div>
