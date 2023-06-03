@@ -1,8 +1,8 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
-import { useDebounce } from 'use-debounce';
-import { useAccount, usePrepareContractWrite, useContractRead, usePrepareSendTransaction, useSendTransaction, useWaitForTransaction, useContractWrite } from 'wagmi';
-import { parseUnits } from 'viem';
+import { useAccount, usePrepareContractWrite, useContractRead, useWaitForTransaction, useContractWrite } from 'wagmi';
 import tokenABI from "../abis/tokenABI.json";
+import nftABI from "../abis/nftABI.json";
+
 const ApproveAndMint = () => {
 
     // required constants 
@@ -52,16 +52,9 @@ const ApproveAndMint = () => {
     // react hook to prepare mint transaction 
     const { config: mintConfig } = usePrepareContractWrite({
         address: nftAddress,
-        abi: [
-            {
-                name: 'mint',
-                type: 'function',
-                stateMutability: 'nonpayable',
-                inputs: [],
-                outputs: [],
-            },
-        ],
+        abi: nftABI,
         functionName: 'mint',
+        args: [inputValue],
     });
 
     // react hook to execute approve transaction
@@ -70,19 +63,6 @@ const ApproveAndMint = () => {
     // react hook to execute mint transaction
     const { data: mintData, write: writeMint } = useContractWrite(mintConfig);
 
-
-    // react hook to wait for approve transaction to complete
-    const { isLoading: mintIsLoading, isSuccess: mintIsSuccess } = useWaitForTransaction({
-        hash: mintData?.hash,
-    });
-
-    //    useEffect(() => {
-    //        const allowance = erc20Allowance as bigint;
-    //        if (allowance >= parseInt(mintPrice)) {
-    //            setIsApproved(true);
-    //        }
-    //    }, [erc20Allowance, mintPrice]);
-    //
     useEffect(() => {
         if (erc20Allowance && mintPrice) {
             const allowance = erc20Allowance as bigint;
@@ -95,17 +75,17 @@ const ApproveAndMint = () => {
         }
     }, [erc20Allowance, mintPrice]);
 
+
     // react hook to wait for mint transaction to complete
     const { isLoading: approveIsLoading, isSuccess: approveIsSuccess } = useWaitForTransaction({
         hash: approveData?.hash,
     })
 
-    const handleMint = async () => {
-        writeMint?.();
-    }
+    const { isLoading: mintIsLoading, isSuccess: mintIsSuccess } = useWaitForTransaction({
+        hash: mintData?.hash,
+    });
 
-    // define button default text
-    const [buttonString, setButtonString] = React.useState('Approve');
+
 
     const buttonClass = `inline-flex items-center py-2.5 px-4 font-rounded 
                         font-bold text-center text-white rounded-lg
@@ -119,8 +99,10 @@ const ApproveAndMint = () => {
 
         if (!isApproved) {
             writeApprove?.();
+            return;
         }
-        console.log(isApproved);
+
+        writeMint?.();
 
     }
 
