@@ -32,24 +32,27 @@ const Home: NextPage = () => {
                     <h1 className="text-2xl">What is NFTensor?</h1>
                     <p>
                         NFTensor is a fun experiment in for creating NFTs out of responses to queries provided by the Bittensor prompting network.
-                        Essentially, make any query you want and see the Bittensor network's response immortalized forever as an NFT.
+                        Essentially, make any query you want and see the Bittensor network's response immortalized forever as an NFT. The NFT will
+                        only capture the first sentence of the provided response, so make it count!
                     </p>
                     <h1 className="text-2xl">How It Works</h1>
                     <p>
-                        When you submit your query, it will be stored forever in the NFTensor NFT contract. Asynchronously, an NFTensor python service will read these queries,
-                        prompt the Bittensor, and generate the response image. This image is then uploaded to IPFS, and the NFT JSON Metadata is posted at NFTensor.com/images/ 
+                        When you submit your query, it will be stored forever in the NFTensor NFT contract. Because this data is stored on Ethereum
+                        longer queries will cost larger amounts of gas.  Keep your query concise for cheaper minting costs.
+                        Asynchronously, an NFTensor python service will read these queries, prompt the Bittensor,
+                        and generate the response image. This image is then uploaded to IPFS, and the NFT JSON Metadata is posted at NFTensor.com/images/
                         during the minting period. At the end of the minting period all json metadata is uploaded to IPFS.
                     </p>
                     <h1 className="text-2xl">How to Mint</h1>
                     <p>
-                        First, connect your wallet to NFTensor.com. Next, enter your query in the text box and click "Prompt and Mint". 
-                        You will first be prompted to approve the NFTensor NFT to spend your wTAO.  Once approved, you will be prompted 
-                        to sign a transaction to mint your NFT.
+                        First, connect your wallet to NFTensor.com. Approve the NFTensor contract to spend at least 1 of your wTAO.
+                        Next, enter your query in the text box and click "Query and Mint". Congratualtions you have minted your NFT!
+                        Remember, the longer the query the greater the transaction fee.
                     </p>
                     <h1 className="text-2xl">Minting Details</h1>
                     <p>
-                        The price of minting is 1 wTAO.  This is a fixed price, and will not change.  The minting period is 5 days.  After the minting period, 
-                        no more NFTs can be minted. There can be a maximum of 500 NFTensor NFTs minted. 
+                        The price of minting is 1 wTAO.  This is a fixed price, and will not change.  The minting period is 5 days.  After the minting period,
+                        no more NFTs can be minted. There can be a maximum of 500 NFTensor NFTs minted.
 
                     </p>
                     <h1 className="text-2xl">DISCLAIMER</h1>
