@@ -7,12 +7,16 @@ const Home: NextPage = () => {
     return (
         <div className="bg-white border min-h-screen">
             <Head>
-                <title>0xcacti webby</title>
+                <title>NFTensor</title>
                 <meta
                     content="width=device-width, initial-scale=1.0"
-                    name="meow"
+                    name="NFTensor"
                 />
                 <link href="/favicon.ico" rel="icon" />
+                <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+                <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+                <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+                <link rel="manifest" href="/site.webmanifest" />
             </Head>
 
             <main>
@@ -32,7 +36,7 @@ const Home: NextPage = () => {
                     <h1 className="text-2xl">What is NFTensor?</h1>
                     <p>
                         NFTensor is a fun experiment in for creating NFTs out of responses to queries provided by the Bittensor prompting network.
-                        Essentially, make any query you want and see the Bittensor network's response immortalized forever as an NFT. The NFT will
+                        Essentially, make any query you want and see the Bittensor network&apos;s response immortalized forever as an NFT. The NFT will
                         only capture the first sentence of the provided response, so make it count!
                     </p>
                     <h1 className="text-2xl">How It Works</h1>
@@ -46,7 +50,7 @@ const Home: NextPage = () => {
                     <h1 className="text-2xl">How to Mint</h1>
                     <p>
                         First, connect your wallet to NFTensor.com. Approve the NFTensor contract to spend at least 1 of your wTAO.
-                        Next, enter your query in the text box and click "Query and Mint". Congratualtions you have minted your NFT!
+                        Next, enter your query in the text box and click &quot;Query and Mint&quot;. Congratualtions you have minted your NFT!
                         Remember, the longer the query the greater the transaction fee.
                     </p>
                     <h1 className="text-2xl">Minting Details</h1>
