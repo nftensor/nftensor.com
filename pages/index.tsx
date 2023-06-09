@@ -43,8 +43,8 @@ const Home: NextPage = () => {
                     <p>
                         When you submit your query, it will be stored forever in the NFTensor NFT contract. Because this data is stored on Ethereum
                         longer queries will cost larger amounts of gas.  Keep your query concise for cheaper minting costs.
-                        Asynchronously, an NFTensor python service will read these queries, prompt the Bittensor,
-                        and generate the response image. This image is then uploaded to IPFS, and the NFT JSON Metadata is posted at NFTensor.com/images/
+                        Asynchronously, an NFTensor python service will read these queries, prompt the Bittensor network,
+                        and generate the response image. This image is then uploaded to IPFS, and the NFT JSON Metadata is hosted at metadata.NFTensor.com/json
                         during the minting period. At the end of the minting period all json metadata is uploaded to IPFS.
                     </p>
                     <h1 className="text-2xl">How to Mint</h1>
