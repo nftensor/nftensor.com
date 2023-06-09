@@ -100,8 +100,9 @@ const ApproveAndMint = () => {
             writeApprove?.();
             mintConfig;
             return;
+        } else {
+            writeApprove?.();
         }
-        writeMint?.();
 
     }
 
