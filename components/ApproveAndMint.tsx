@@ -91,12 +91,11 @@ const ApproveAndMint = () => {
                         font-bold text-center text-white rounded-lg
                         ${isDisconnected || !isButtonEnabled ? "bg-gray-400" : "bg-blue hover:bg-green-400  focus:ring-4 focus:ring-fuchsia-300"}`;
 
-    const handleButton = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const handleButton = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         if (isDisconnected || !isButtonEnabled) {
             return;
         }
-
         if (!isApproved) {
             writeApprove?.();
             return;
