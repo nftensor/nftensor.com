@@ -18,7 +18,7 @@ const Home: NextPage = () => {
             </Head>
 
             <main>
-                <div className="mb-5">
+                <div className="mb-2">
                     <div className="container flex justify-between  py-8 mx-auto">
                         <Link href="/">
                             <a className="text-xl font-bold text-black md:text-2xl hover:text-red">
@@ -27,28 +27,28 @@ const Home: NextPage = () => {
                         </Link>
                     </div>
                 </div>
-                <div className="container mx-auto mt-10 flex flex-col space-y-2">
-                    <div className="flex justify-center">
+                <div className="container mx-auto mt-2 flex flex-col space-y-2">
+                    <div className="flex justify-center mb-10 ptr0">
                         <h1 className="text-8xl"> Coming Soon </h1>
                     </div>
-                    <h1 className="text-2xl">What is NFTensor?</h1>
+                    <h1 className="text-2xl mb-10">What is NFTensor?</h1>
                     <p>
                         NFTensor is a fun experiment in for creating NFTs out of responses to queries provided by the Bittensor prompting network.
-                        Essentially, make any query you want and see the Bittensor network's response immortalized forever as an NFT. The NFT will
+                        Essentially, make any query you want and see the Bittensor network&apos;s response immortalized forever as an NFT. The NFT will
                         only capture the first sentence of the provided response, so make it count!
                     </p>
                     <h1 className="text-2xl">How It Works</h1>
                     <p>
                         When you submit your query, it will be stored forever in the NFTensor NFT contract. Because this data is stored on Ethereum
                         longer queries will cost larger amounts of gas.  Keep your query concise for cheaper minting costs.
-                        Asynchronously, an NFTensor python service will read these queries, prompt the Bittensor,
-                        and generate the response image. This image is then uploaded to IPFS, and the NFT JSON Metadata is posted at NFTensor.com/images/
+                        Asynchronously, an NFTensor python service will read these queries, prompt the Bittensor network,
+                        and generate the response image. This image is then uploaded to IPFS, and the NFT JSON Metadata is hosted at metadata.NFTensor.com/json
                         during the minting period. At the end of the minting period all json metadata is uploaded to IPFS.
                     </p>
                     <h1 className="text-2xl">How to Mint</h1>
                     <p>
                         First, connect your wallet to NFTensor.com. Approve the NFTensor contract to spend at least 1 of your wTAO.
-                        Next, enter your query in the text box and click "Query and Mint". Congratualtions you have minted your NFT!
+                        Next, enter your query in the text box and click &quot;Query and Mint&quot;. Congratualtions you have minted your NFT!
                         Remember, the longer the query the greater the transaction fee.
                     </p>
                     <h1 className="text-2xl">Minting Details</h1>
