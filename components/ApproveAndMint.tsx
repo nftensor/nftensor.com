@@ -57,6 +57,7 @@ const ApproveAndMint = () => {
         args: [inputValue],
     });
 
+
     // react hook to execute approve transaction
     const { data: approveData, write: writeApprove } = useContractWrite(approveConfig);
 
@@ -66,7 +67,6 @@ const ApproveAndMint = () => {
     useEffect(() => {
         if (erc20Allowance && mintPrice) {
             const allowance = erc20Allowance as bigint;
-            console.log(allowance);
             if (allowance >= parseInt(mintPrice)) {
                 setIsApproved(true);
             } else {
@@ -89,7 +89,7 @@ const ApproveAndMint = () => {
 
     const buttonClass = `inline-flex items-center py-2.5 px-4 font-rounded 
                         font-bold text-center text-white rounded-lg
-                        ${isDisconnected || !isButtonEnabled ? "bg-gray-400" : "bg-blue hover:bg-green-400  focus:ring-4 focus:ring-fuchsia-300"}`;
+                        ${isDisconnected || !isButtonEnabled || approveIsLoading || mintIsLoading ? "bg-gray-400" : "bg-blue hover:bg-green-400  focus:ring-4 focus:ring-fuchsia-300"}`;
 
     const handleButton = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
@@ -98,9 +98,9 @@ const ApproveAndMint = () => {
         }
         if (!isApproved) {
             writeApprove?.();
+            mintConfig;
             return;
         }
-
         writeMint?.();
 
     }
@@ -126,12 +126,16 @@ const ApproveAndMint = () => {
                         type="submit"
                         className={buttonClass}
                         onClick={handleButton}
-                        disabled={!isButtonEnabled && !isDisconnected}>
+                        disabled={!isButtonEnabled && !isDisconnected || approveIsLoading || mintIsLoading}>
                         {!isDisconnected
                             ? isButtonEnabled
-                                ? isApproved
-                                    ? "Query and Mint"
-                                    : "Approve"
+                                ? !approveIsLoading
+                                    ? !mintIsLoading
+                                        ? isApproved
+                                            ? "Query and Mint"
+                                            : "Approve"
+                                        : "Minting"
+                                    : "Waiting for Approval"
                                 : "Enter Prompt"
                             : "Connect Wallet"
                         }
