@@ -31,9 +31,9 @@ const Home: NextPage = () => {
                     <div className="flex justify-center mb-10 ptr0">
                         <h1 className="text-8xl"> Coming Soon </h1>
                     </div>
-                    <h1 className="text-2xl mb-10">What is NFTensor?</h1>
+                    <h1 className="text-2xl">What is NFTensor?</h1>
                     <p>
-                        NFTensor is a fun experiment in for creating NFTs out of responses to queries provided by the Bittensor prompting network.
+                        NFTensor is a fun experiment for creating NFTs out of responses to queries provided by the Bittensor prompting network.
                         Essentially, make any query you want and see the Bittensor network&apos;s response immortalized forever as an NFT. The NFT will
                         only capture the first sentence of the provided response, so make it count!
                     </p>
@@ -48,8 +48,8 @@ const Home: NextPage = () => {
                     <h1 className="text-2xl">How to Mint</h1>
                     <p>
                         First, connect your wallet to NFTensor.com. Approve the NFTensor contract to spend at least 1 of your wTAO.
-                        Next, enter your query in the text box and click &quot;Query and Mint&quot;. Congratualtions you have minted your NFT!
-                        Remember, the longer the query the greater the transaction fee.
+                        Next, enter your query in the text box and click &quot;Query and Mint&quot;. Congratulations, you have minted your NFT!
+                        Remember, the longer the query the greater, the transaction fee.
                     </p>
                     <h1 className="text-2xl">Minting Details</h1>
                     <p>
