@@ -16,6 +16,7 @@ import { publicProvider } from "wagmi/providers/public";
 const { chains, provider, webSocketProvider } = configureChains(
     [
         mainnet,
+        goerli,
         localhost,
         ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true" ? [goerli] : []),
     ],

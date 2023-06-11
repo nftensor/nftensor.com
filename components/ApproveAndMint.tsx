@@ -1,18 +1,21 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
 import { useAccount, usePrepareContractWrite, useContractRead, useWaitForTransaction, useContractWrite } from 'wagmi';
+import { waitForTransaction } from '@wagmi/core';
 import tokenABI from "../abis/tokenABI.json";
 import nftABI from "../abis/nftABI.json";
 
+// required constants 
+const mintPrice = "1000000000";
+// real address 
+// const wTAOAddress = '0x77E06c9eCCf2E797fd462A92B6D7642EF85b0A44';
+const wTAOAddress = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'; // local testnet
+// const wTAOAddress = "0x0C5e3Da3A52687436008A59fcc3b1e750454583e"; // temp goerli address
+
+// test NFTensor address
+const nftAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+//const nftAddress = "0xC40262e011c5e7a1f1F419DaC9Fd52eBf0e5de2e"; 
+
 const ApproveAndMint = () => {
-
-    // required constants 
-    const mintPrice = "1000000000";
-    // real address 
-    // const wTAOAddress = '0x77E06c9eCCf2E797fd462A92B6D7642EF85b0A44';
-    const wTAOAddress = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'; // test wTAO Address
-
-    // test NFTensor address
-    const nftAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 
     // get account 
     const { address: userAddress, isDisconnected } = useAccount();
@@ -42,7 +45,14 @@ const ApproveAndMint = () => {
     });
 
     // react hook to prepare approve transaction 
-    const { config: approveConfig } = usePrepareContractWrite({
+//    const { config: approveConfig } = usePrepareContractWrite({
+//        address: wTAOAddress,
+//        abi: tokenABI,
+//        functionName: 'approve',
+//        args: [nftAddress, mintPrice],
+//    });
+    
+    const approveConfig = usePrepareContractWrite({
         address: wTAOAddress,
         abi: tokenABI,
         functionName: 'approve',
@@ -59,10 +69,10 @@ const ApproveAndMint = () => {
 
 
     // react hook to execute approve transaction
-    const { data: approveData, write: writeApprove } = useContractWrite(approveConfig);
+    const { data: approveData, write: writeApprove } = useContractWrite({...approveConfig.config, });
 
     // react hook to execute mint transaction
-    const { data: mintData, write: writeMint } = useContractWrite(mintConfig);
+    const { data: mintData, write: writeMint } = useContractWrite();
 
     useEffect(() => {
         if (erc20Allowance && mintPrice) {
@@ -91,18 +101,26 @@ const ApproveAndMint = () => {
                         font-bold text-center text-white rounded-lg
                         ${isDisconnected || !isButtonEnabled || approveIsLoading || mintIsLoading ? "bg-gray-400" : "bg-blue hover:bg-green-400  focus:ring-4 focus:ring-fuchsia-300"}`;
 
-    const handleButton = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+
+    const handleButton = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
+
         if (isDisconnected || !isButtonEnabled) {
             return;
         }
+
+        if (!writeApprove || !writeMint) return;
+
+    
         if (!isApproved) {
-            writeApprove?.();
+
+            const approveHash = await writeApprove.writeAsync()
+            await waitForTransaction(approveHash)
             mintConfig;
             return;
-        } else {
-            writeApprove?.();
         }
+        const mintHash = await writeMint.writeAsync()
+        await waitForTransaction(mintHash)
 
     }
 
