@@ -1,8 +1,10 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
 import { useAccount, usePrepareContractWrite, useContractRead, useWaitForTransaction, useContractWrite } from 'wagmi';
 import { waitForTransaction } from '@wagmi/core';
+import { useDebounce } from './useDebounce';
 import tokenABI from "../abis/tokenABI.json";
 import nftABI from "../abis/nftABI.json";
+
 
 // required constants 
 const mintPrice = "1000000000";
@@ -45,14 +47,7 @@ const ApproveAndMint = () => {
     });
 
     // react hook to prepare approve transaction 
-//    const { config: approveConfig } = usePrepareContractWrite({
-//        address: wTAOAddress,
-//        abi: tokenABI,
-//        functionName: 'approve',
-//        args: [nftAddress, mintPrice],
-//    });
-    
-    const approveConfig = usePrepareContractWrite({
+    const { config: approveConfig } = usePrepareContractWrite({
         address: wTAOAddress,
         abi: tokenABI,
         functionName: 'approve',
@@ -65,14 +60,15 @@ const ApproveAndMint = () => {
         abi: nftABI,
         functionName: 'mint',
         args: [inputValue],
+        enabled: Boolean(isApproved),
     });
 
 
     // react hook to execute approve transaction
-    const { data: approveData, write: writeApprove } = useContractWrite({...approveConfig.config, });
+    const { data: approveData, write: writeApprove } = useContractWrite(approveConfig);
 
     // react hook to execute mint transaction
-    const { data: mintData, write: writeMint } = useContractWrite();
+    const { data: mintData, write: writeMint } = useContractWrite(mintConfig);
 
     useEffect(() => {
         if (erc20Allowance && mintPrice) {
@@ -109,22 +105,15 @@ const ApproveAndMint = () => {
             return;
         }
 
-        if (!writeApprove || !writeMint) return;
-
-    
         if (!isApproved) {
-
-            const approveHash = await writeApprove.writeAsync()
-            await waitForTransaction(approveHash)
+            writeApprove?.();
             mintConfig;
             return;
         }
-        const mintHash = await writeMint.writeAsync()
-        await waitForTransaction(mintHash)
+
+        writeMint?.();
 
     }
-
-
 
 
     return (
