@@ -1,7 +1,5 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
 import { useAccount, usePrepareContractWrite, useContractRead, useWaitForTransaction, useContractWrite } from 'wagmi';
-import { waitForTransaction } from '@wagmi/core';
-import { useDebounce } from './useDebounce';
 import tokenABI from "../abis/tokenABI.json";
 import nftABI from "../abis/nftABI.json";
 
