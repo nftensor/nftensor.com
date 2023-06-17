@@ -8,12 +8,12 @@ import nftABI from "../abis/nftABI.json";
 const mintPrice = "1000000000";
 // real address 
 // const wTAOAddress = '0x77E06c9eCCf2E797fd462A92B6D7642EF85b0A44';
-const wTAOAddress = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'; // local testnet
-// const wTAOAddress = "0x0C5e3Da3A52687436008A59fcc3b1e750454583e"; // temp goerli address
+// const wTAOAddress = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'; // local testnet
+const wTAOAddress = "0x7d172c225E6345CB130108A3D218E2Ae5435c655"; // temp goerli address
 
 // test NFTensor address
-const nftAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
-//const nftAddress = "0xC40262e011c5e7a1f1F419DaC9Fd52eBf0e5de2e"; 
+// const nftAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+const nftAddress = "0xD0b8525b39733CE28cbA163914bd6DACF6a45780"; 
 
 const ApproveAndMint = () => {
 
