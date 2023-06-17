@@ -5,7 +5,7 @@ import Link from "next/link";
 import ApproveAndMint from "../components/ApproveAndMint";
 const Home: NextPage = () => {
     return (
-        <div className="bg-white border min-h-screen">
+        <div className="bg-white mb-10 min-h-screen">
             <Head>
                 <title>NFTensor</title>
                 <meta
@@ -41,11 +41,12 @@ const Home: NextPage = () => {
                     </p>
                     <h1 className="text-2xl">How It Works</h1>
                     <p>
-                        When you submit your query, it will be stored forever in the NFTensor NFT contract. Because this data is stored on Ethereum
-                        longer queries will cost larger amounts of gas.  Keep your query concise for cheaper minting costs.
+                        When you submit your query, it will be stored forever in the NFTensor NFT contract. Data is stored on Ethereum forever, so
+                        longer queries will incur larger transaction fees.  Keep your query concise for cheaper minting costs.
                         Asynchronously, an NFTensor python service will read these queries, prompt the Bittensor network,
-                        and generate the response image. This image is then uploaded to IPFS, and the NFT JSON Metadata is hosted at metadata.NFTensor.com/json
-                        during the minting period. At the end of the minting period all json metadata is uploaded to IPFS.
+                        and generate the response image. During the minting period, the image and NFT JSON Metadata are hosted at 
+                        text.NFTensor.com/images/ and text.NFTensor.com/metadata/ respectively. At the end of the minting period the images 
+                        and json metadata are uploaded to IPFS.
                     </p>
                     <h1 className="text-2xl">How to Mint</h1>
                     <p>
