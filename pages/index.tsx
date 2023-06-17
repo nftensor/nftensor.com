@@ -3,7 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 const Home: NextPage = () => {
     return (
-        <div className="bg-white border min-h-screen">
+        <div className="bg-white mb-10 min-h-screen">
             <Head>
                 <title>NFTensor</title>
                 <meta
