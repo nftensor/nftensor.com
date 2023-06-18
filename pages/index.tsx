@@ -52,7 +52,7 @@ const Home: NextPage = () => {
                     <p>
                         First, connect your wallet to NFTensor.com. Approve the NFTensor contract to spend at least 1 of your wTAO.
                         Next, enter your query in the text box and click &quot;Query and Mint&quot;. Congratulations, you have minted your NFT!
-                        Remember, the longer the query the greater, the transaction fee.
+                        You should now be able to see your NFT, remember to refresh metadata if the NFT is not immediately visible.
                     </p>
                     <h1 className="text-2xl">Minting Details</h1>
                     <p>
