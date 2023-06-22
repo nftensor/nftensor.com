@@ -4,20 +4,20 @@ import tokenABI from "../abis/tokenABI.json";
 import nftABI from "../abis/nftABI.json";
 
 
-// required constants 
+// required constants
 const mintPrice = "1000000000";
-// real address 
+// real address
 // const wTAOAddress = '0x77E06c9eCCf2E797fd462A92B6D7642EF85b0A44';
-// const wTAOAddress = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'; // local testnet
-const wTAOAddress = "0x7d172c225E6345CB130108A3D218E2Ae5435c655"; // temp goerli address
+const wTAOAddress = '0x5F93cAC653e35B324E1A2FA3e5E540f1907bF3E7'; // local testnet
+// const wTAOAddress = "0x0C5e3Da3A52687436008A59fcc3b1e750454583e"; // temp goerli address
 
 // test NFTensor address
-// const nftAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
-const nftAddress = "0xD0b8525b39733CE28cbA163914bd6DACF6a45780"; 
+const nftAddress = '0x555cF52131F0183cD75BcE399a1Fd7Dc9f28083B';
+//const nftAddress = "0xC40262e011c5e7a1f1F419DaC9Fd52eBf0e5de2e";
 
 const ApproveAndMint = () => {
 
-    // get account 
+    // get account
     const { address: userAddress, isDisconnected } = useAccount();
 
     // create state variable for user query
@@ -35,6 +35,9 @@ const ApproveAndMint = () => {
     // state variable to check if user is approved
     const [isApproved, setIsApproved] = React.useState(false);
 
+    // state variable to see if minting is possible
+    const [isMintingOpen, setIsMintingOpen] = React.useState(true);
+
     // react hook to read user allowance
     const { data: erc20Allowance } = useContractRead({
         address: wTAOAddress,
@@ -44,16 +47,31 @@ const ApproveAndMint = () => {
         args: [userAddress, nftAddress],
     });
 
-    // react hook to prepare approve transaction 
-    const { config: approveConfig } = usePrepareContractWrite({
+    const { data: isMintWindowClosed } = useContractRead({
+        address: nftAddress,
+        abi: nftABI,
+        functionName: 'isMintingPeriodOver',
+        watch: true,
+    });
+
+    const { data: tokenCount } = useContractRead({
+        address: nftAddress,
+        abi: nftABI,
+        functionName: 'tokenID',
+        watch: true,
+    });
+
+
+    // react hook to prepare approve transaction
+    const { config: approveConfig, error: approveConfigError, isError: isApproveConfigError } = usePrepareContractWrite({
         address: wTAOAddress,
         abi: tokenABI,
         functionName: 'approve',
         args: [nftAddress, mintPrice],
     });
 
-    // react hook to prepare mint transaction 
-    const { config: mintConfig } = usePrepareContractWrite({
+    // react hook to prepare mint transaction
+    const { config: mintConfig, error: mintConfigError, isError: isMintConfigError } = usePrepareContractWrite({
         address: nftAddress,
         abi: nftABI,
         functionName: 'mint',
@@ -63,11 +81,22 @@ const ApproveAndMint = () => {
 
 
     // react hook to execute approve transaction
-    const { data: approveData, write: writeApprove } = useContractWrite(approveConfig);
+    const { data: approveData, error: approveError, isError: isErrorApprove, write: writeApprove } = useContractWrite(approveConfig);
 
     // react hook to execute mint transaction
-    const { data: mintData, write: writeMint } = useContractWrite(mintConfig);
+    const { data: mintData, error: mintError, isError: isErrorMint, write: writeMint } = useContractWrite(mintConfig);
 
+    // react hook to wait for approve transaction to complete
+    const { isLoading: approveIsLoading } = useWaitForTransaction({
+        hash: approveData?.hash,
+    })
+    // react hook to wait for mint transaction
+    const { isLoading: mintIsLoading, isSuccess: mintIsSuccess } = useWaitForTransaction({
+        hash: mintData?.hash,
+    });
+
+
+    // react use effect hooks for updating state vars
     useEffect(() => {
         if (erc20Allowance && mintPrice) {
             const allowance = erc20Allowance as bigint;
@@ -79,21 +108,20 @@ const ApproveAndMint = () => {
         }
     }, [erc20Allowance, mintPrice]);
 
-
-    // react hook to wait for mint transaction to complete
-    const { isLoading: approveIsLoading, isSuccess: approveIsSuccess } = useWaitForTransaction({
-        hash: approveData?.hash,
-    })
-
-    const { isLoading: mintIsLoading, isSuccess: mintIsSuccess } = useWaitForTransaction({
-        hash: mintData?.hash,
-    });
-
+    useEffect(() => {
+        const numNFTs = tokenCount as bigint;
+        if (isMintWindowClosed || numNFTs >= 500) {
+            setIsMintingOpen(false);
+        } else {
+            setIsMintingOpen(true);
+        }
+    }, [isMintWindowClosed, tokenCount]);
 
 
-    const buttonClass = `inline-flex items-center py-2.5 px-4 font-rounded 
+    // logic for buton
+    const buttonClass = `inline-flex items-center py-2.5 px-4 font-rounded
                         font-bold text-center text-white rounded-lg
-                        ${isDisconnected || !isButtonEnabled || approveIsLoading || mintIsLoading ? "bg-gray-400" : "bg-blue hover:bg-green-400  focus:ring-4 focus:ring-fuchsia-300"}`;
+                        ${isDisconnected || !isButtonEnabled || approveIsLoading || mintIsLoading || !isMintingOpen ? "bg-gray-400" : "bg-blue hover:bg-green-400  focus:ring-4 focus:ring-fuchsia-300"}`;
 
 
     const handleButton = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -102,14 +130,26 @@ const ApproveAndMint = () => {
         if (isDisconnected || !isButtonEnabled) {
             return;
         }
-
         if (!isApproved) {
+
             writeApprove?.();
+
             mintConfig;
+
+            if (isErrorApprove || isApproveConfigError) {
+
+                console.log({ "approve config error": approveConfigError });
+                console.log({ "approve error": approveError });
+            }
             return;
         }
 
         writeMint?.();
+
+        if (isErrorMint || isMintConfigError) {
+            console.log({ "mint config error": mintConfigError });
+            console.log({ "mint error": mintError });
+        }
 
     }
 
@@ -122,28 +162,35 @@ const ApproveAndMint = () => {
                     <textarea
                         id="comment"
                         rows={4}
-                        className="w-full px-8 py-6 text-xl focus:shadow-soft-primary-outline appearance-none rounded-lg border-2 border-solid border-"
+                        className="w-full px-8 py-6 text-xl focus:shadow-soft-primary-outline appearance-none rounded-lg border-2 border-solid"
                         value={inputValue}
                         onChange={handleInputChange}
                     />
                 </div>
-                <div className="flex items-center justify-end px-3 py-2 border-t">
+                <div className="flex items-center justify-between px-3 py-2 border-t space-x-5">
+                    <div className="flex items-center">
+                        {mintIsSuccess ? <p className="text-green-500 underline">
+                            Minted!  <a className="underline" href={`https://etherscan.io/tx/${mintData?.hash}`}> View on Etherscan</a>
+                        </p> : null}
+                    </div>
                     <button
                         type="submit"
                         className={buttonClass}
                         onClick={handleButton}
-                        disabled={!isButtonEnabled && !isDisconnected || approveIsLoading || mintIsLoading}>
-                        {!isDisconnected
-                            ? isButtonEnabled
-                                ? !approveIsLoading
-                                    ? !mintIsLoading
-                                        ? isApproved
-                                            ? "Query and Mint"
-                                            : "Approve"
-                                        : "Minting"
-                                    : "Waiting for Approval"
-                                : "Enter Prompt"
-                            : "Connect Wallet"
+                        disabled={!isButtonEnabled && !isDisconnected || approveIsLoading || mintIsLoading || !isMintingOpen}>
+                        {isMintingOpen
+                            ? !isDisconnected
+                                ? isButtonEnabled
+                                    ? !approveIsLoading
+                                        ? !mintIsLoading
+                                            ? isApproved
+                                                ? "Query and Mint"
+                                                : "Approve"
+                                            : "Minting"
+                                        : "Waiting for Approval"
+                                    : "Enter Prompt"
+                                : "Connect Wallet"
+                            : "Minting Closed"
                         }
                     </button>
                 </div>
