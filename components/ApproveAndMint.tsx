@@ -163,6 +163,7 @@ const ApproveAndMint = () => {
                         id="comment"
                         rows={4}
                         className="w-full px-8 py-6 text-xl focus:shadow-soft-primary-outline appearance-none rounded-lg border-2 border-solid"
+                        placeholder="What is the capital of Mongolia?"
                         value={inputValue}
                         onChange={handleInputChange}
                     />
