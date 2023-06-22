@@ -29,7 +29,7 @@ const Home: NextPage = () => {
                 </div>
                 <div className="container mx-auto mt-2 flex flex-col space-y-2">
                     <div className="flex justify-center mb-10 ptr0">
-                        <h1 className="text-8xl"> Coming Soon </h1>
+                        <h1 className="text-8xl"> Coming Monday </h1>
                     </div>
                     <h1 className="text-2xl">What is NFTensor?</h1>
                     <p>
@@ -54,7 +54,7 @@ const Home: NextPage = () => {
                     </p>
                     <h1 className="text-2xl">Minting Details</h1>
                     <p>
-                        The price of minting is 1 wTAO.  This is a fixed price, and will not change.  The minting period is 5 days.  After the minting period,
+                        The price of minting is 1 wTAO.  This is a fixed price, and will not change.  The minting period is 10 days.  After the minting period,
                         no more NFTs can be minted. There can be a maximum of 500 NFTensor NFTs minted.
 
                     </p>
