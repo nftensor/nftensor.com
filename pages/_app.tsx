@@ -7,18 +7,13 @@ import {
 import type { AppProps } from "next/app";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import {
-    goerli,
     mainnet,
-    localhost,
 } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 
 const { chains, provider, webSocketProvider } = configureChains(
     [
         mainnet,
-        goerli,
-        localhost,
-        ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true" ? [goerli] : []),
     ],
     [publicProvider()]
 );

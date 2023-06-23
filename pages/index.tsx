@@ -48,6 +48,8 @@ const Home: NextPage = () => {
                         text.NFTensor.com/images/ and text.NFTensor.com/metadata/ respectively. At the end of the minting period the images 
                         and json metadata are uploaded to IPFS.
 
+                        <br/><br/>
+
                         Note, it can take a few minutes before your NFT is visible.
                         The generation depends on a separate blockchain network and this can cause latency issues.  Additionally, the NFT generation code checks
                         for Ethereum re-orgs every 30 minutes.  This process can add an additional few minutes to the NFT generation process.  The best way to
