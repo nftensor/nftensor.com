@@ -29,7 +29,7 @@ const Home: NextPage = () => {
                 </div>
                 <div className="container mx-auto mt-2 flex flex-col space-y-2">
                     <div className="flex justify-center mb-10 ptr0">
-                        <h1 className="text-8xl"> Coming Monday </h1>
+                        <h1 className="text-8xl"> Coming Wednesday </h1>
                     </div>
                     <h1 className="text-2xl">What is NFTensor?</h1>
                     <p>
@@ -42,15 +42,20 @@ const Home: NextPage = () => {
                         When you submit your query, it will be stored forever in the NFTensor NFT contract. Data is stored on Ethereum forever, so
                         longer queries will incur larger transaction fees.  Keep your query concise for cheaper minting costs.
                         Asynchronously, an NFTensor python service will read these queries, prompt the Bittensor network,
-                        and generate the response image. During the minting period, the image and NFT JSON Metadata are hosted at
-                        text.NFTensor.com/images/ and text.NFTensor.com/metadata/ respectively. At the end of the minting period the images
+                        and generate the response image. During the minting period, the image and NFT JSON Metadata are hosted at 
+                        text.NFTensor.com/images/ and text.NFTensor.com/metadata/ respectively. At the end of the minting period the images 
                         and json metadata are uploaded to IPFS.
+
+                        Note, it can take a few minutes before your NFT is visible.
+                        The generation depends on a separate blockchain network and this can cause latency issues.  Additionally, the NFT generation code checks
+                        for Ethereum re-orgs every 30 minutes.  This process can add an additional few minutes to the NFT generation process.  The best way to
+                        check if your NFT is visible is to refresh the metadata on your preferred viewing platform.
                     </p>
                     <h1 className="text-2xl">How to Mint</h1>
                     <p>
                         First, connect your wallet to NFTensor.com. Approve the NFTensor contract to spend at least 1 of your wTAO.
                         Next, enter your query in the text box and click &quot;Query and Mint&quot;. Congratulations, you have minted your NFT!
-                        You should now be able to see your NFT, remember to refresh metadata if the NFT is not immediately visible.
+                        You should now be able to see your NFT, remember to refresh the metadata if the NFT is not visible.
                     </p>
                     <h1 className="text-2xl">Minting Details</h1>
                     <p>
