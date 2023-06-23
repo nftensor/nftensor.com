@@ -61,7 +61,6 @@ const Home: NextPage = () => {
                         The generation depends on a separate blockchain network and this can cause latency issues.  Additionally, the NFT generation code checks 
                         for Ethereum re-orgs every 30 minutes.  This process can add an additional few minutes to the NFT generation process.  The best way to 
                         check if your NFT is visible is to refresh the metadata on your preferred viewing platform. 
-
                     </p>
                     <h1 className="text-2xl">DISCLAIMER</h1>
                     <p>
