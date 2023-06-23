@@ -57,7 +57,10 @@ const Home: NextPage = () => {
                     <h1 className="text-2xl">Minting Details</h1>
                     <p>
                         The price of minting is 1 wTAO.  This is a fixed price, and will not change.  The minting period is 10 days.  After the minting period,
-                        no more NFTs can be minted. There can be a maximum of 500 NFTensor NFTs minted.
+                        no more NFTs can be created. There can be a maximum of 500 NFTensor NFTs minted. Note, it can take a few minutes before your NFT is visible.
+                        The generation depends on a separate blockchain network and this can cause latency issues.  Additionally, the NFT generation code checks 
+                        for Ethereum re-orgs every 30 minutes.  This process can add an additional few minutes to the NFT generation process.  The best way to 
+                        check if your NFT is visible is to refresh the metadata on your preferred viewing platform. 
 
                     </p>
                     <h1 className="text-2xl">DISCLAIMER</h1>
