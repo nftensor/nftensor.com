@@ -47,20 +47,23 @@ const Home: NextPage = () => {
                         and generate the response image. During the minting period, the image and NFT JSON Metadata are hosted at 
                         text.NFTensor.com/images/ and text.NFTensor.com/metadata/ respectively. At the end of the minting period the images 
                         and json metadata are uploaded to IPFS.
+
+                        Note, it can take a few minutes before your NFT is visible.
+                        The generation depends on a separate blockchain network and this can cause latency issues.  Additionally, the NFT generation code checks
+                        for Ethereum re-orgs every 30 minutes.  This process can add an additional few minutes to the NFT generation process.  The best way to
+                        check if your NFT is visible is to refresh the metadata on your preferred viewing platform.
                     </p>
                     <h1 className="text-2xl">How to Mint</h1>
                     <p>
                         First, connect your wallet to NFTensor.com. Approve the NFTensor contract to spend at least 1 of your wTAO.
                         Next, enter your query in the text box and click &quot;Query and Mint&quot;. Congratulations, you have minted your NFT!
-                        You should now be able to see your NFT, remember to refresh metadata if the NFT is not immediately visible.
+                        You should now be able to see your NFT, remember to refresh the metadata if the NFT is not visible.
                     </p>
                     <h1 className="text-2xl">Minting Details</h1>
                     <p>
                         The price of minting is 1 wTAO.  This is a fixed price, and will not change.  The minting period is 10 days.  After the minting period,
-                        no more NFTs can be created. There can be a maximum of 500 NFTensor NFTs minted. Note, it can take a few minutes before your NFT is visible.
-                        The generation depends on a separate blockchain network and this can cause latency issues.  Additionally, the NFT generation code checks 
-                        for Ethereum re-orgs every 30 minutes.  This process can add an additional few minutes to the NFT generation process.  The best way to 
-                        check if your NFT is visible is to refresh the metadata on your preferred viewing platform. 
+                        no more NFTs can be minted. There can be a maximum of 500 NFTensor NFTs minted.
+
                     </p>
                     <h1 className="text-2xl">DISCLAIMER</h1>
                     <p>
