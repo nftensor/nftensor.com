@@ -7,10 +7,10 @@ import nftABI from "../abis/nftABI.json";
 const mintPrice = "1000000000";
 
 // wTAO Address
-const wTAOAddress = '0x148D80Cd7047c941bD28092a4005DbeC843b5c02';
+const wTAOAddress = '0x77E06c9eCCf2E797fd462A92B6D7642EF85b0A44';
 
 // NFTensor address
-const nftAddress = '0xC3da50e6c7dA5d5E17564B21885A20919B75470e';
+const nftAddress = '0x148D80Cd7047c941bD28092a4005DbeC843b5c02';
 
 const ApproveAndMint = () => {
 
