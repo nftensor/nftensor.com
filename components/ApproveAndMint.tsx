@@ -3,17 +3,14 @@ import { useAccount, usePrepareContractWrite, useContractRead, useWaitForTransac
 import tokenABI from "../abis/tokenABI.json";
 import nftABI from "../abis/nftABI.json";
 
-
 // required constants
 const mintPrice = "1000000000";
-// real address
-// const wTAOAddress = '0x77E06c9eCCf2E797fd462A92B6D7642EF85b0A44';
-const wTAOAddress = '0x5F93cAC653e35B324E1A2FA3e5E540f1907bF3E7'; // local testnet
-// const wTAOAddress = "0x0C5e3Da3A52687436008A59fcc3b1e750454583e"; // temp goerli address
 
-// test NFTensor address
-const nftAddress = '0x555cF52131F0183cD75BcE399a1Fd7Dc9f28083B';
-//const nftAddress = "0xC40262e011c5e7a1f1F419DaC9Fd52eBf0e5de2e";
+// wTAO Address
+const wTAOAddress = '0x148D80Cd7047c941bD28092a4005DbeC843b5c02';
+
+// NFTensor address
+const nftAddress = '0xC3da50e6c7dA5d5E17564B21885A20919B75470e';
 
 const ApproveAndMint = () => {
 
@@ -166,7 +163,7 @@ const ApproveAndMint = () => {
                         placeholder="What is the capital of Mongolia?"
                         value={inputValue}
                         onChange={handleInputChange}
-                    />
+                    ></textarea>
                 </div>
                 <div className="flex items-center justify-between px-3 py-2 border-t space-x-5">
                     <div className="flex items-center">
@@ -201,4 +198,3 @@ const ApproveAndMint = () => {
 };
 
 export default ApproveAndMint;
-
